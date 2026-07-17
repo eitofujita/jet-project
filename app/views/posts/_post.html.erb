@@ -1,0 +1,26 @@
+<article id="<%= dom_id(post) %>" class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+  <header class="flex items-center justify-between p-4">
+    <%= link_to "@#{post.user.username}", user_path(post.user), class: "font-semibold hover:text-blue-600" %>
+    <time class="text-sm text-slate-500" datetime="<%= post.created_at.iso8601 %>">
+      <%= l(post.created_at, format: :short) %>
+    </time>
+  </header>
+
+  <% if post.image.attached? %>
+    <%= image_tag post.image, alt: "#{post.user.username}の投稿画像", class: "max-h-[42rem] w-full bg-slate-100 object-contain" %>
+  <% end %>
+
+  <div class="space-y-4 p-4">
+    <%= render "likes/like_button", post: post %>
+    <% if post.caption.present? %>
+      <p class="whitespace-pre-wrap"><span class="font-semibold">@<%= post.user.username %></span> <%= post.caption %></p>
+    <% end %>
+    <%= link_to "コメント#{post.comments.size}件を見る", post_path(post), class: "text-sm text-slate-600 hover:text-blue-600" %>
+    <% if policy(post).update? %>
+      <div class="flex gap-4 border-t pt-3 text-sm">
+        <%= link_to "編集", edit_post_path(post), class: "text-blue-600" %>
+        <%= button_to "削除", post_path(post), method: :delete, form: { data: { turbo_confirm: "投稿を削除しますか？" } }, class: "text-red-600" %>
+      </div>
+    <% end %>
+  </div>
+</article>

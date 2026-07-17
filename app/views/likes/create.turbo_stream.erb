@@ -1,0 +1,2 @@
+<% @post.likes.reload %>
+<%= turbo_stream.replace dom_id(@post, :like), partial: "likes/like_button", locals: { post: @post } %>

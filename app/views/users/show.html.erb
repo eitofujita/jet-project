@@ -1,0 +1,24 @@
+<div class="mx-auto max-w-2xl">
+  <header class="mb-8 rounded-xl bg-white p-6 shadow-sm">
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-bold">@<%= @user.username %></h1>
+        <p class="mt-2 text-slate-600">
+          <%= @user.posts.size %>投稿・<%= @user.followers.size %>フォロワー・<%= @user.following.size %>フォロー中
+        </p>
+      </div>
+
+      <% if current_user != @user %>
+        <% if current_user.following.exists?(@user.id) %>
+          <%= button_to "フォロー解除", user_follow_path(@user), method: :delete, class: "rounded-lg border px-4 py-2 font-semibold" %>
+        <% else %>
+          <%= button_to "フォロー", user_follow_path(@user), method: :post, class: "rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white" %>
+        <% end %>
+      <% end %>
+    </div>
+  </header>
+
+  <div class="space-y-8">
+    <%= render @posts %>
+  </div>
+</div>
