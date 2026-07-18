@@ -5,7 +5,7 @@ class FollowsController < ApplicationController
   def create
     authorize @user, :follow?
     current_user.active_follows.find_or_create_by!(followed: @user)
-    redirect_to @user, notice: "#{@user.username}をフォローしました", status: :see_other
+    redirect_to @user, notice: "Вы подписались на #{@user.username}", status: :see_other
   rescue ActiveRecord::RecordNotUnique
     redirect_to @user, status: :see_other
   end
@@ -13,12 +13,12 @@ class FollowsController < ApplicationController
   def destroy
     authorize @user, :follow?
     current_user.active_follows.find_by(followed: @user)&.destroy!
-    redirect_to @user, notice: "#{@user.username}のフォローを解除しました", status: :see_other
+    redirect_to @user, notice: "Вы отписались от #{@user.username}", status: :see_other
   end
 
   private
 
   def set_user
-    @user = User.find(params[:user_id])
+    @user = User.find_by_param!(params[:user_id])
   end
 end

@@ -4,7 +4,27 @@ RSpec.describe "Posts", type: :request do
   it "未認証ユーザーをログイン画面へ送る" do
     get posts_path
 
-    expect(response).to redirect_to(new_session_path)
+    expect(response).to redirect_to(login_path)
+  end
+
+  it "画像選択欄をロシア語で表示する" do
+    sign_in(create(:user))
+
+    get new_post_path
+
+    expect(response).to have_http_status(:success)
+    expect(response.body).to include("Выбрать файл")
+    expect(response.body).to include("Файл не выбран")
+  end
+
+  it "投稿一覧から個別投稿へ移動できるリンクを表示する" do
+    post_record = create(:post)
+    sign_in(create(:user))
+
+    get posts_path
+
+    expect(response).to have_http_status(:success)
+    expect(response.body).to include(post_path(post_record))
   end
 
   it "所有者が投稿を更新できる" do

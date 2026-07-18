@@ -1,4 +1,4 @@
-<%= form_with model: post, class: "space-y-5" do |form| %>
+<%= form_with model: post, class: "space-y-5", data: { controller: "form-validation" } do |form| %>
   <% if post.errors.any? %>
     <div class="rounded-lg bg-red-50 p-4 text-red-800" role="alert">
       <ul class="list-disc pl-5">
@@ -10,15 +10,28 @@
   <% end %>
 
   <div>
-    <%= form.label :image, "画像", class: "block font-medium" %>
-    <%= form.file_field :image, accept: "image/jpeg,image/png,image/webp", required: !post.image.attached?, class: "mt-1 block w-full rounded-lg border bg-white p-3" %>
-    <p class="mt-1 text-sm text-slate-500">JPEG、PNG、WebP形式・5MB以下</p>
+    <span class="block font-medium">Изображение</span>
+    <div class="mt-1 flex items-center gap-3 rounded-lg border bg-white p-3" data-controller="file-input">
+      <%= form.file_field :image,
+        accept: "image/jpeg,image/png,image/webp",
+        required: !post.image.attached?,
+        class: "sr-only",
+        data: {
+          file_input_target: "input",
+          action: "change->file-input#change invalid->form-validation#invalid input->form-validation#clear"
+        } %>
+      <%= form.label :image, "Выбрать файл", class: "cursor-pointer rounded-lg bg-slate-700 px-4 py-2 font-semibold text-white hover:bg-slate-800" %>
+      <span class="min-w-0 truncate text-slate-600" data-file-input-target="name" aria-live="polite">
+        <%= post.image.attached? ? post.image.filename : "Файл не выбран" %>
+      </span>
+    </div>
+    <p class="mt-1 text-sm text-slate-500">JPEG, PNG или WebP, не более 5 МБ</p>
   </div>
 
   <div>
-    <%= form.label :caption, "本文", class: "block font-medium" %>
+    <%= form.label :caption, "Описание", class: "block font-medium" %>
     <%= form.text_area :caption, maxlength: 2_200, rows: 5, class: "mt-1 w-full rounded-lg border p-3" %>
   </div>
 
-  <%= form.submit class: "rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700" %>
+  <%= form.submit(post.persisted? ? "Сохранить изменения" : "Опубликовать", class: "rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700") %>
 <% end %>

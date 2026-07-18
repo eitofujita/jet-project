@@ -2,15 +2,15 @@
   <%= render @post %>
 
   <section class="rounded-xl bg-white p-5 shadow-sm" aria-labelledby="comments-heading">
-    <h2 id="comments-heading" class="mb-4 text-xl font-bold">コメント</h2>
+    <h2 id="comments-heading" class="mb-4 text-xl font-bold">Комментарии</h2>
     <div id="comments">
       <%= render @comments %>
     </div>
 
-    <%= form_with model: [@post, @comment], class: "mt-5 flex gap-3" do |form| %>
-      <%= form.label :body, "コメント", class: "sr-only" %>
-      <%= form.text_field :body, required: true, maxlength: 500, placeholder: "コメントを入力", class: "min-w-0 flex-1 rounded-lg border p-3" %>
-      <%= form.submit "送信", class: "rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white" %>
+    <%= form_with model: [@post, @comment], class: "mt-5 flex gap-3", data: { controller: "form-validation" } do |form| %>
+      <%= form.label :body, "Комментарий", class: "sr-only" %>
+      <%= form.text_field :body, required: true, maxlength: 500, placeholder: "Напишите комментарий", class: "min-w-0 flex-1 rounded-lg border p-3", data: { action: "invalid->form-validation#invalid input->form-validation#clear" } %>
+      <%= form.submit "Отправить", class: "rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white" %>
     <% end %>
   </section>
 </div>

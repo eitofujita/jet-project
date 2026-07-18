@@ -5,12 +5,12 @@
 /.kamal/secrets
 /config/master.key
 /coverage
+/docs/
 /log/*
-/storage/*
+/storage/
 /tmp/*
 
 !/log/.keep
-!/storage/.keep
 !/tmp/.keep
 !/tmp/pids/.keep
 !/tmp/storage/.keep

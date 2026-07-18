@@ -1,0 +1,16 @@
+<div class="mx-auto max-w-2xl">
+  <div class="mb-6">
+    <%= link_to "← @#{@user.username}", user_path(@user), class: "text-blue-600 hover:underline" %>
+    <h1 class="mt-3 text-2xl font-bold">Подписки</h1>
+  </div>
+
+  <% if @users.any? %>
+    <div class="space-y-4">
+      <%= render partial: "user_card", collection: @users, as: :user %>
+    </div>
+  <% else %>
+    <div class="rounded-xl bg-white p-8 text-center shadow-sm">
+      <p>Этот пользователь пока ни на кого не подписан.</p>
+    </div>
+  <% end %>
+</div>

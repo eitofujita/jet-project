@@ -22,10 +22,10 @@ class ApplicationController < ActionController::Base
     return if signed_in?
 
     session[:return_to] = request.fullpath if request.request_method.in?(%w[GET HEAD])
-    redirect_to new_session_path, alert: "ログインしてください"
+    redirect_to login_path, alert: "Пожалуйста, войдите в аккаунт"
   end
 
   def user_not_authorized
-    redirect_back fallback_location: root_path, alert: "この操作を実行する権限がありません"
+    redirect_back fallback_location: root_path, alert: "У вас нет прав для выполнения этого действия"
   end
 end

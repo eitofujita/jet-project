@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ru">
   <head>
     <title><%= content_for(:title) || "Mini Instagram" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -25,17 +25,19 @@
 
   <body class="min-h-screen bg-slate-50 text-slate-900">
     <header class="sticky top-0 z-10 border-b border-slate-200 bg-white">
-      <nav class="mx-auto flex max-w-4xl items-center justify-between px-4 py-3" aria-label="メインナビゲーション">
+      <nav class="mx-auto flex max-w-4xl items-center justify-between px-4 py-3" aria-label="Основная навигация">
         <%= link_to "Mini Instagram", root_path, class: "text-xl font-bold" %>
         <div class="flex items-center gap-4">
           <% if signed_in? %>
-            <%= link_to "フィード", root_path, class: "hover:text-blue-600" %>
-            <%= link_to "投稿する", new_post_path, class: "rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700" %>
+            <%= link_to "Лента", root_path, class: "hover:text-blue-600" %>
+            <%= link_to "Все публикации", posts_path, class: "hover:text-blue-600" %>
+            <%= link_to "Найти пользователей", users_path, class: "hover:text-blue-600" %>
+            <%= link_to "Новая публикация", new_post_path, class: "rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700" %>
             <%= link_to current_user.username, user_path(current_user), class: "hover:text-blue-600" %>
-            <%= button_to "ログアウト", session_path, method: :delete, class: "hover:text-red-600" %>
+            <%= button_to "Выйти", logout_path, method: :delete, class: "hover:text-red-600" %>
           <% else %>
-            <%= link_to "ログイン", new_session_path, class: "hover:text-blue-600" %>
-            <%= link_to "登録", new_user_path, class: "rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white" %>
+            <%= link_to "Войти", login_path, class: "hover:text-blue-600" %>
+            <%= link_to "Регистрация", signup_path, class: "rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white" %>
           <% end %>
         </div>
       </nav>

@@ -1,7 +1,7 @@
 <div class="mx-auto max-w-md rounded-xl bg-white p-8 shadow">
-  <h1 class="mb-6 text-2xl font-bold">アカウント登録</h1>
+  <h1 class="mb-6 text-2xl font-bold">Регистрация</h1>
 
-  <%= form_with model: @user, class: "space-y-5" do |form| %>
+  <%= form_with model: @user, url: signup_path, class: "space-y-5", data: { controller: "form-validation" } do |form| %>
     <% if @user.errors.any? %>
       <div class="rounded-lg bg-red-50 p-4 text-red-800" role="alert">
         <ul class="list-disc pl-5">
@@ -13,21 +13,21 @@
     <% end %>
 
     <div>
-      <%= form.label :username, "ユーザー名", class: "block font-medium" %>
-      <%= form.text_field :username, required: true, autocomplete: "username", class: "mt-1 w-full rounded-lg border p-3" %>
+      <%= form.label :username, "Имя пользователя", class: "block font-medium" %>
+      <%= form.text_field :username, required: true, minlength: 3, autocomplete: "username", class: "mt-1 w-full rounded-lg border p-3", data: { action: "invalid->form-validation#invalid input->form-validation#clear" } %>
     </div>
     <div>
-      <%= form.label :email, "メールアドレス", class: "block font-medium" %>
-      <%= form.email_field :email, required: true, autocomplete: "email", class: "mt-1 w-full rounded-lg border p-3" %>
+      <%= form.label :email, "Электронная почта", class: "block font-medium" %>
+      <%= form.email_field :email, required: true, autocomplete: "email", class: "mt-1 w-full rounded-lg border p-3", data: { action: "invalid->form-validation#invalid input->form-validation#clear" } %>
     </div>
     <div>
-      <%= form.label :password, "パスワード（8文字以上）", class: "block font-medium" %>
-      <%= form.password_field :password, required: true, autocomplete: "new-password", class: "mt-1 w-full rounded-lg border p-3" %>
+      <%= form.label :password, "Пароль (не менее 8 символов)", class: "block font-medium" %>
+      <%= form.password_field :password, required: true, minlength: 8, autocomplete: "new-password", class: "mt-1 w-full rounded-lg border p-3", data: { action: "invalid->form-validation#invalid input->form-validation#clear" } %>
     </div>
     <div>
-      <%= form.label :password_confirmation, "パスワード確認", class: "block font-medium" %>
-      <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", class: "mt-1 w-full rounded-lg border p-3" %>
+      <%= form.label :password_confirmation, "Подтверждение пароля", class: "block font-medium" %>
+      <%= form.password_field :password_confirmation, required: true, minlength: 8, autocomplete: "new-password", class: "mt-1 w-full rounded-lg border p-3", data: { action: "invalid->form-validation#invalid input->form-validation#clear" } %>
     </div>
-    <%= form.submit "登録する", class: "w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white hover:bg-blue-700" %>
+    <%= form.submit "Зарегистрироваться", class: "w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white hover:bg-blue-700" %>
   <% end %>
 </div>

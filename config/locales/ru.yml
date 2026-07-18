@@ -1,0 +1,34 @@
+ru:
+  activerecord:
+    models:
+      user: Пользователь
+      post: Публикация
+      comment: Комментарий
+      like: Отметка «Нравится»
+      follow: Подписка
+    attributes:
+      user:
+        username: Имя пользователя
+        email: Электронная почта
+        password: Пароль
+        password_confirmation: Подтверждение пароля
+      post:
+        caption: Описание
+        image: Изображение
+      comment:
+        body: Текст комментария
+      follow:
+        followed: Пользователь
+    errors:
+      messages:
+        blank: не может быть пустым
+        taken: уже используется
+        invalid: имеет неверный формат
+        too_short: "слишком короткий (минимум %{count} символов)"
+        too_long: "слишком длинный (максимум %{count} символов)"
+        confirmation: не совпадает с паролем
+  errors:
+    format: "%{attribute}: %{message}"
+  time:
+    formats:
+      short: "%d.%m.%Y %H:%M"

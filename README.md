@@ -1,339 +1,346 @@
-#0 GIT
+# Mini Instagram
 
-#1 Hello Ruby
+Учебный клон Instagram на Ruby on Rails. Приложение поддерживает регистрацию, публикацию изображений, подписки, персональную ленту, комментарии и отметки «Нравится».
 
-#2 - Блок-схемы и типы данных
-(Block diagrams and data types)
-
-#3 - Работа с файлами
-(Working with files)
-
-#4 - Классы и модули
-(Classes and modules)
-
-#5 - Тестирование. Rspec
-(Testing. RSpec)
-
-#6 - HTTP сервер
-(HTTP server)
-
-#7 - Rails
-
-#8 - Database (part 1)
-
-#9 - Database (part 2)
-
-#10 - Debugging (Ruby/Rails)
-
-#11 - Active Record
-
-#12 - Controllers & Authentication
-
-#13 - Authorization + live code
-
-#14 - Views
-
-#15 - Rspec + сдача проектов
-(RSpec + Project submission)
-
-
-Проект 
-
-
-В разрезе курсового мы будем писать свой Instagram. В миниатюре конечно. 😅
-
-Почему? Минимальный набор функционала инсты довольно хорошо позволяет разобраться со всеми основными аспектами веб приложений.
-
-Функционал
-
-👉 A user can sign up for an account
-
-👉 A user can log in to their account
-
-👉 A user can post an image
-
-👉 A user can edit post he owns
-
-👉 A user can follow another user
-
-👉 A user can unfollow another user
-
-👉 A user can view his/her feed
-
-👉 A user can leave comment
-
-👉 A user can remove his/her comments
-
-👉 A user can see comments
-
-👉 A user can like/dislike (if liked previously) posts
-
-👉 A user can view the number of likes on a post
+[Русский](#русский) · [日本語](#日本語)
 
 ---
 
-## まとめ（日本語）
+## Русский
 
-> 詳細な学習教材は **[Ruby / Railsカリキュラム教材](docs/curriculum/README.md)** にあります。GitとRubyの基礎から、データベース、認証・認可、View、RSpec、プロジェクト提出までを章ごとに解説しています。
+### О проекте
 
-> 実装したファイルの役割とDockerfileを含む構成の説明は **[作成内容と構成](docs/IMPLEMENTATION.md)** にあります。
+Mini Instagram — серверное веб-приложение, созданное в рамках учебной программы Ruby / Rails. HTML генерируется Rails с помощью ERB, интерактивные обновления реализованы через Turbo и Stimulus. Отдельный frontend на React не используется.
 
-### カリキュラム（#0〜#15）
+Интерфейс приложения, уведомления и сообщения об ошибках представлены на русском языке.
 
-| # | 内容 |
-|---|------|
-| 0 | Git |
-| 1 | Hello Ruby |
-| 2 | ブロック図とデータ型 |
-| 3 | ファイル操作 |
-| 4 | クラスとモジュール |
-| 5 | テスト（RSpec） |
-| 6 | HTTP サーバー |
-| 7 | Rails |
-| 8-9 | Database（パート1・2） |
-| 10 | Debugging（Ruby/Rails） |
-| 11 | Active Record |
-| 12 | Controllers & Authentication |
-| 13 | Authorization + live code |
-| 14 | Views |
-| 15 | RSpec + プロジェクト提出 |
+### Возможности
 
-### プロジェクト概要
+- Регистрация, вход и выход
+- URL профиля в формате `/users/@name`
+- Поиск зарегистрированных пользователей
+- Подписка и отписка
+- Просмотр подписчиков и подписок
+- Персональная лента из своих публикаций и публикаций подписок
+- Просмотр всех публикаций
+- Создание публикации с изображением
+- Редактирование и удаление собственной публикации
+- Отдельная страница публикации
+- Создание и удаление собственных комментариев
+- Добавление и удаление отметки «Нравится»
+- Отображение количества комментариев и отметок
+- Частичное обновление комментариев и отметок через Turbo Stream
+- Проверка прав доступа с помощью Pundit
 
-コースの最終プロジェクトとして、**小規模な Instagram クローン** を作成する。Web アプリの主要な要素を一通り学ぶための題材となっている。
+### Технологии
 
-### 必要な機能
+| Категория | Технология |
+|---|---|
+| Язык | Ruby 3.2.3 |
+| Фреймворк | Rails 8.1.3 |
+| База данных | SQLite 3 |
+| Шаблоны | ERB |
+| Стили | Tailwind CSS |
+| Интерактивность | Turbo / Stimulus |
+| Файлы | Active Storage |
+| Аутентификация | `has_secure_password` / bcrypt |
+| Авторизация | Pundit |
+| Тестирование | RSpec / Capybara / FactoryBot |
+| Проверка кода | RuboCop / Brakeman |
 
-- ユーザー登録・ログイン ok
-- 画像投稿 ok
-- 自分の投稿の編集 ok
-- フォロー / アンフォロー 
-- フィード表示 
-- コメントの投稿・削除・閲覧 ok
-- 投稿へのいいね / いいね解除 ok
-- 投稿のいいね数表示 ok
+### Требования
 
----
+- Ruby 3.2.3
+- Bundler 2.4 или новее
+- SQLite
 
-## 開発方針
+Версии gem зафиксированы в `Gemfile.lock`.
 
-このプロジェクトでは、RailsのMVC、HTTP、データベース、認証・認可を一つずつ理解することを優先し、RailsがHTMLを生成する標準的な構成を採用する。
-
-画面はERBで作成し、デザインにはCSSまたはTailwind CSSを使用する。ページ遷移やLike数、コメント一覧などの部分更新にはTurboを使用し、Turboだけで表現しにくい小さな操作にStimulusを使用する。Railsだけでも投稿一覧、画像表示、フォロー、コメント、Likeなどの必要機能は実装できる。
-
-フロントエンドを別アプリケーションへ分離する構成は採用しない。HTML生成、フォーム処理、validationエラーの表示、認証済みセッション、画面の部分更新までをRailsアプリケーション内で一貫して実装する。
-
-## 技術構成
-
-| 分類 | 採用技術 | 役割 |
-|---|---|---|
-| プログラミング言語 | Ruby 3.2.3 | サーバー側の処理と業務ロジック |
-| Webフレームワーク | Rails 8.1.3 | MVC、ルーティング、DB接続、画面生成 |
-| HTMLテンプレート | ERB | Rubyの値を使用したHTML生成 |
-| スタイル | CSS / Tailwind CSS | レイアウトとデザイン |
-| 画面更新 | Turbo | ページ遷移と部分更新 |
-| JavaScript | Stimulus | 必要な箇所だけの対話的な処理 |
-| データベース | SQLite 3（sqlite3 gem 2.9.5） | ユーザー、投稿、関係データの永続化 |
-| 画像管理 | Active Storage | 投稿画像の保存と参照 |
-| 認証 | `has_secure_password` | パスワードのハッシュ化とログイン |
-| 認可 | Pundit | 投稿編集やコメント削除などの権限判定 |
-| テスト | RSpec / Capybara | モデル、HTTP、ブラウザ操作の検証 |
-| コード品質 | RuboCop | Rubyコードの静的解析 |
-| セキュリティ検査 | Brakeman | Railsに関する脆弱性の検査 |
-| バージョン管理 | Git | 変更履歴とブランチ管理 |
-
-当初はRuby 3.3以降とPostgreSQLを予定していたが、WSLのAPT権限によりシステムパッケージを導入できなかったため、確認のうえRuby 3.2.3とSQLiteへ変更した。Railsとgemのバージョンは`.ruby-version`、`Gemfile`、`Gemfile.lock`に固定している。Ruby 3.2は保守期間が終了しているため、環境修復後はRuby 3.3以降へ更新する。
-
-## セットアップ
+### Установка и запуск
 
 ```bash
+git clone https://github.com/eitofujita/jet-project.git
+cd jet-project
+bundle config set --local path .bundle/gems
 bundle install
 bin/rails db:prepare
-bin/rails tailwindcss:build
-bin/rails server
-```
-
-開発サーバーとTailwind CSSの監視を同時に起動する場合は、次を使用する。
-
-```bash
 bin/dev
 ```
 
-テストと品質検査は次のコマンドで実行する。
+После запуска откройте:
+
+```text
+http://localhost:3000
+```
+
+`bin/dev` одновременно запускает Rails и наблюдение за Tailwind CSS.
+
+### Основные URL
+
+| URL | Назначение |
+|---|---|
+| `/signup` | Регистрация |
+| `/login` | Вход |
+| `/` | Персональная лента |
+| `/posts` | Все публикации |
+| `/posts/:id` | Отдельная публикация |
+| `/users` | Поиск пользователей |
+| `/users/@name` | Профиль |
+| `/users/@name/followers` | Подписчики |
+| `/users/@name/following` | Подписки |
+
+### Тесты и проверка качества
 
 ```bash
 bundle exec rspec
-bin/rubocop
+RUBOCOP_CACHE_ROOT=tmp/rubocop_cache bin/rubocop
 bin/brakeman --no-pager
 ```
 
-BrakemanはRuby 3.2の保守終了を警告する。これは現在のWSL環境制約による既知の問題であり、アプリケーションコードの警告とは分けて扱う。
+Тесты покрывают модели, политики доступа, HTTP-запросы и основной сценарий регистрации.
 
-## RSpecの導入方針
-
-RSpecは最終段階だけで追加するのではなく、カリキュラムの`#5 テスト（RSpec）`で基本を導入し、それ以降の実装で継続して使用する。機能をすべて作った後からテストを追加すると、テストしにくい設計や隠れた依存関係が残りやすいため、各機能の実装とテストを同じ作業単位として進める。
-
-### #5で学ぶ内容
-
-- `describe`、`context`、`it`による仕様の整理
-- `expect`とmatcherによる期待結果の検証
-- 正常系、異常系、境界値のテスト設計
-- `let`、`subject`、テストダブルの基本
-- テスト失敗時のメッセージとスタックトレースの読み方
-
-この段階では、データベースやRailsに依存しないRubyクラスを対象にして、入力、戻り値、状態変化、例外を検証する。
-
-### #7以降での使用方法
-
-Railsを導入した後は、モデルや各機能を実装するたびに対応するRSpecを追加する。
-
-- Model spec: validation、関連、scope、業務ルール
-- Policy spec: 所有者、別ユーザー、管理者の権限
-- Request spec: routing、認証、Strong Parameters、HTTPステータス、DB変更
-- System spec: 登録、ログイン、投稿、フォロー、コメント、Likeの主要操作
-
-### #15で仕上げる内容
-
-`#15 RSpec + プロジェクト提出`ではRSpecを初めて導入するのではなく、それまでに作成したテスト全体を整理する。重複したテストの削減、不足する異常系の追加、Factoryの改善、CIでの自動実行、提出前の全体確認を行う。
-
-## プロジェクト構成
-
-Railsアプリケーションはリポジトリ直下へ配置し、学習教材は既存の`docs/curriculum`へ残す。
+### Структура проекта
 
 ```text
 jet-project/
 ├── app/
-│   ├── controllers/     # HTTPリクエストとレスポンス
-│   ├── jobs/            # 通知などの非同期処理
-│   ├── models/          # データ、関連、validation
-│   ├── policies/        # 操作権限の判定
-│   ├── services/        # 複数モデルにまたがる処理
-│   └── views/           # ERBによる画面
+│   ├── controllers/
+│   │   ├── application_controller.rb  # текущий пользователь и проверка входа
+│   │   ├── users_controller.rb        # регистрация, профиль и списки подписок
+│   │   ├── sessions_controller.rb     # вход и выход
+│   │   ├── posts_controller.rb        # CRUD публикаций
+│   │   ├── feeds_controller.rb        # персональная лента
+│   │   ├── comments_controller.rb     # создание и удаление комментариев
+│   │   ├── likes_controller.rb        # отметка «Нравится» и её удаление
+│   │   └── follows_controller.rb      # подписка и отписка
+│   ├── models/
+│   │   ├── user.rb                    # аккаунт, пароль и связи пользователя
+│   │   ├── post.rb                    # публикация и проверка изображения
+│   │   ├── comment.rb                 # комментарий к публикации
+│   │   ├── like.rb                    # уникальная отметка пользователя
+│   │   └── follow.rb                  # связь подписчик → пользователь
+│   ├── policies/
+│   │   ├── post_policy.rb             # права на изменение публикации
+│   │   ├── comment_policy.rb          # права на удаление комментария
+│   │   └── user_policy.rb             # доступ к профилям и подпискам
+│   ├── services/
+│   │   └── feed_query.rb              # запрос публикаций для ленты
+│   ├── views/
+│   │   ├── layouts/                   # общий HTML и навигация
+│   │   ├── users/                     # регистрация, профиль и списки
+│   │   ├── sessions/                  # форма входа
+│   │   ├── posts/                     # список, форма и страница публикации
+│   │   ├── feeds/                     # персональная лента
+│   │   ├── comments/                  # partial и Turbo Stream
+│   │   └── likes/                     # кнопка и Turbo Stream
+│   ├── javascript/controllers/
+│   │   ├── file_input_controller.js   # русское поле выбора изображения
+│   │   └── form_validation_controller.js # русские сообщения браузера
+│   └── assets/                        # Tailwind source и собранный CSS
 ├── config/
-│   ├── routes.rb        # URLとControllerの対応
-│   └── database.yml     # データベース接続設定
+│   ├── routes.rb                      # URL и HTTP-методы
+│   ├── application.rb                 # locale и конфигурация Rails
+│   ├── database.yml                   # SQLite для development/test/production
+│   ├── storage.yml                    # Active Storage
+│   └── locales/ru.yml                 # русские названия и ошибки
 ├── db/
-│   ├── migrate/         # スキーマ変更履歴
-│   ├── schema.rb        # 現在のDB構造
-│   └── seeds.rb         # 開発用初期データ
-├── docs/
-│   └── curriculum/      # Ruby / Rails学習教材
+│   ├── migrate/                       # миграции таблиц и ограничений
+│   ├── schema.rb                      # актуальная структура базы данных
+│   └── seeds.rb                       # начальные данные
 ├── spec/
-│   ├── factories/       # テストデータの定義
-│   ├── models/          # モデルテスト
-│   ├── policies/        # 認可テスト
-│   ├── requests/        # HTTPリクエストテスト
-│   └── system/          # ブラウザ操作テスト
-├── storage/             # 開発環境の画像保存先
-├── Gemfile
-├── Gemfile.lock
+│   ├── factories/                     # тестовые User, Post, Comment и связи
+│   ├── models/                        # проверки моделей
+│   ├── policies/                      # проверки прав доступа
+│   ├── requests/                      # маршруты, HTTP и изменение базы
+│   ├── system/                        # сценарии в браузере
+│   └── support/                       # общий helper входа
+├── bin/dev                            # Rails + Tailwind
+├── Procfile.dev                       # процессы development
+├── Gemfile / Gemfile.lock             # зависимости и версии
+├── Dockerfile                         # production container
 └── README.md
 ```
 
-## データモデル
+Поток обычного запроса: `routes.rb → Controller → Policy → Model/Service → ERB`. Изменения комментариев и отметок возвращаются как Turbo Stream, поэтому обновляется только нужная часть страницы.
 
-### User
+### Docker
 
-ユーザーのメールアドレス、ユーザー名、パスワードダイジェストを管理する。Userは複数のPost、Comment、Likeを持つ。フォロー関係では、フォローする側とフォローされる側の両方になる。
+`Dockerfile` и конфигурация Kamal были созданы стандартной командой Rails 8. Они предназначены для production-развёртывания и не требуются для локального запуска через `bin/dev`.
 
-### Post
+### Известные ограничения
 
-投稿者、本文、投稿日時、画像を管理する。画像はPostの列へ直接保存せず、Active Storageを通して関連付ける。投稿の編集・削除は原則として所有者だけに許可する。
+- Ruby 3.2.3 больше не поддерживается. Планируется обновление до Ruby 3.3 или новее.
+- В текущей среде используется SQLite. Перед production-развёртыванием рекомендуется перейти на PostgreSQL.
+- Лента ограничена 30 публикациями; интерфейс следующей страницы пока не реализован.
+- Изображения сохраняются локально. Для production необходимо настроить S3-совместимое хранилище.
+- Docker image пока не проверен.
 
-### Comment
+---
 
-コメント本文、作成者、対象投稿を管理する。コメントは一つのUserと一つのPostに属し、削除は作成者または管理者だけに許可する。
+## 日本語
 
-### Like
+### プロジェクト概要
 
-Likeしたユーザーと対象投稿の関係を管理する。同じユーザーが同じ投稿へ複数回Likeできないように、モデルのvalidationだけでなくデータベースにも複合一意インデックスを設定する。
+Mini Instagramは、Ruby / Railsカリキュラムの学習用に作成したInstagramクローンです。RailsとERBでHTMLを生成し、TurboとStimulusで部分更新を実装しています。Reactなどの独立したフロントエンドは使用していません。
 
-### Follow
+アプリケーションの画面、通知、入力エラーはロシア語で表示されます。
 
-フォローするユーザーとフォローされるユーザーの自己参照関係を管理する。自己フォローと同じ組み合わせの重複を禁止する。フォロー関係はフィードに表示する投稿を決定するために使用する。
+### 実装機能
 
-```text
-User ──< Post
-User ──< Comment >── Post
-User ──< Like >──── Post
-User ──< Follow >── User
-Post ─── Image（Active Storage）
+- ユーザー登録・ログイン・ログアウト
+- `/users/@name`形式のプロフィールURL
+- ユーザー検索
+- フォロー・フォロー解除
+- フォロワー一覧・フォロー中一覧
+- 自分とフォロー中ユーザーの投稿を表示するフィード
+- 全ユーザーの投稿一覧
+- 画像付き投稿
+- 自分の投稿の編集・削除
+- 個別投稿画面
+- コメントの作成・自分のコメントの削除
+- Like・Like解除・件数表示
+- Turbo StreamによるコメントとLikeの部分更新
+- Punditによるサーバー側の認可
+
+### 技術構成
+
+| 分類 | 技術 |
+|---|---|
+| 言語 | Ruby 3.2.3 |
+| フレームワーク | Rails 8.1.3 |
+| データベース | SQLite 3 |
+| テンプレート | ERB |
+| スタイル | Tailwind CSS |
+| 画面更新 | Turbo / Stimulus |
+| 画像管理 | Active Storage |
+| 認証 | `has_secure_password` / bcrypt |
+| 認可 | Pundit |
+| テスト | RSpec / Capybara / FactoryBot |
+| 品質・セキュリティ | RuboCop / Brakeman |
+
+### 必要環境
+
+- Ruby 3.2.3
+- Bundler 2.4以降
+- SQLite
+
+gemのバージョンは`Gemfile.lock`に固定されています。
+
+### セットアップと起動
+
+```bash
+git clone https://github.com/eitofujita/jet-project.git
+cd jet-project
+bundle config set --local path .bundle/gems
+bundle install
+bin/rails db:prepare
+bin/dev
 ```
 
-## 実装状況
+起動後、次のURLを開きます。
 
-### 第1段階: 開発環境と基礎
+```text
+http://localhost:3000
+```
 
-- [x] Ruby、Rails、SQLiteのバージョンを確認して固定する。
-- [x] Railsアプリケーションを初期化する。
-- [x] RSpec、RuboCop、Brakemanを設定する。
-- [x] development、testのデータベースを作成する。
-- [x] Tailwind CSS、Turbo、Stimulusを設定する。
+`bin/dev`はRailsサーバーとTailwind CSSの監視を同時に起動します。
 
-### 第2段階: ユーザーと認証
+### 主要URL
 
-- [x] Userモデルとデータベース制約を作成する。
-- [x] ユーザー登録画面を実装する。
-- [x] セッションを使用したログイン・ログアウトを実装する。
-- [x] `has_secure_password`でパスワードをハッシュ化する。
-- [x] 未ログインユーザーから保護対象ページへのアクセスを制限する。
+| URL | 用途 |
+|---|---|
+| `/signup` | ユーザー登録 |
+| `/login` | ログイン |
+| `/` | フィード |
+| `/posts` | 全投稿 |
+| `/posts/:id` | 個別投稿 |
+| `/users` | ユーザー検索 |
+| `/users/@name` | プロフィール |
+| `/users/@name/followers` | フォロワー一覧 |
+| `/users/@name/following` | フォロー中一覧 |
 
-### 第3段階: 投稿と画像
+### テストと品質確認
 
-- [x] PostモデルとUserとの関連を作成する。
-- [x] Active Storageによる画像投稿を実装する。
-- [x] 投稿一覧、詳細、新規作成、編集、削除を実装する。
-- [x] 画像形式、5MBの容量上限、2,200文字の本文長を検証する。
-- [x] Punditで所有者以外の編集・削除を禁止する。
+```bash
+bundle exec rspec
+RUBOCOP_CACHE_ROOT=tmp/rubocop_cache bin/rubocop
+bin/brakeman --no-pager
+```
 
-### 第4段階: フォローとフィード
+モデル、認可、HTTPリクエスト、ユーザー登録の主要操作をRSpecで検証しています。
 
-- [x] Followモデルと自己参照関連を作成する。
-- [x] フォローとアンフォローを実装する。
-- [x] モデルとDB制約で自己フォローと重複フォローを禁止する。
-- [x] フォロー中ユーザーと自分の投稿を新しい順に表示する。
-- [x] 関連を先読みし、フィードを最大30件に制限する。
+### ディレクトリ構成
 
-### 第5段階: コメントとLike
+```text
+jet-project/
+├── app/
+│   ├── controllers/
+│   │   ├── application_controller.rb  # current_user、認証要求、認可エラー
+│   │   ├── users_controller.rb        # 登録、プロフィール、フォロー一覧
+│   │   ├── sessions_controller.rb     # ログイン・ログアウト
+│   │   ├── posts_controller.rb        # 投稿CRUD
+│   │   ├── feeds_controller.rb        # 個人フィード
+│   │   ├── comments_controller.rb     # コメント作成・削除
+│   │   ├── likes_controller.rb        # Like・Like解除
+│   │   └── follows_controller.rb      # フォロー・解除
+│   ├── models/
+│   │   ├── user.rb                    # アカウント、パスワード、ユーザー関連
+│   │   ├── post.rb                    # 投稿、画像、ファイル検証
+│   │   ├── comment.rb                 # 投稿へのコメント
+│   │   ├── like.rb                    # ユーザーごとの一意なLike
+│   │   └── follow.rb                  # follower → followedの自己参照関連
+│   ├── policies/
+│   │   ├── post_policy.rb             # 投稿の編集・削除権限
+│   │   ├── comment_policy.rb          # コメント削除権限
+│   │   └── user_policy.rb             # プロフィールとフォロー関連権限
+│   ├── services/
+│   │   └── feed_query.rb              # フィード用投稿検索
+│   ├── views/
+│   │   ├── layouts/                   # 共通HTMLとナビゲーション
+│   │   ├── users/                     # 登録、プロフィール、ユーザー一覧
+│   │   ├── sessions/                  # ログインフォーム
+│   │   ├── posts/                     # 投稿一覧、フォーム、個別投稿
+│   │   ├── feeds/                     # 個人フィード
+│   │   ├── comments/                  # partialとTurbo Stream
+│   │   └── likes/                     # LikeボタンとTurbo Stream
+│   ├── javascript/controllers/
+│   │   ├── file_input_controller.js   # ロシア語のファイル選択UI
+│   │   └── form_validation_controller.js # ロシア語のブラウザ検証
+│   └── assets/                        # Tailwind入力CSSと生成CSS
+├── config/
+│   ├── routes.rb                      # URLとHTTPメソッド
+│   ├── application.rb                 # localeなどRails全体設定
+│   ├── database.yml                   # 環境別SQLite設定
+│   ├── storage.yml                    # Active Storage設定
+│   └── locales/ru.yml                 # ロシア語の属性名・エラー
+├── db/
+│   ├── migrate/                       # テーブル・制約のmigration
+│   ├── schema.rb                      # 現在のDB構造
+│   └── seeds.rb                       # 初期データ
+├── spec/
+│   ├── factories/                     # User、Postなどのテストデータ
+│   ├── models/                        # モデルspec
+│   ├── policies/                      # 認可spec
+│   ├── requests/                      # route、HTTP、DB変更のspec
+│   ├── system/                        # ブラウザ操作spec
+│   └── support/                       # 共通ログインhelper
+├── bin/dev                            # RailsとTailwindの同時起動
+├── Procfile.dev                       # developmentプロセス定義
+├── Gemfile / Gemfile.lock             # gemと固定バージョン
+├── Dockerfile                         # 本番用コンテナ定義
+└── README.md
+```
 
-- [x] Commentモデルと投稿・ユーザーとの関連を作成する。
-- [x] コメントの作成、一覧、所有者削除を実装する。
-- [x] Likeモデルを作成し、Likeと解除を実装する。
-- [x] 投稿ごとのLike件数を表示する。
-- [x] Turbo Streamでコメント一覧とLike表示を部分更新する。
+通常のリクエストは`routes.rb → Controller → Policy → Model/Service → ERB`の順に処理されます。コメントとLikeの変更はTurbo Streamを返し、画面全体ではなく対象部分だけを更新します。
 
-### 第6段階: 品質確認と提出
+### Dockerについて
 
-- [x] Model、Policy、Request、System specを整備する。
-- [x] 未認証、不正入力、他人のリソース、重複操作を検証する。
-- [x] RuboCopとBrakemanを実行する。
-- [x] フィードと投稿一覧で関連を先読みする。
-- [x] READMEへセットアップと検証手順を記載する。
+`Dockerfile`とKamal設定はRails 8の標準生成物です。本番デプロイ用であり、`bin/dev`によるローカル起動には必要ありません。
 
-## カリキュラム#0〜#15と成果物の対応
+### 既知の制約
 
-| # | テーマ | このプロジェクトでの成果物・確認内容 |
-|---|---|---|
-| 0 | Git | Gitリポジトリと`.gitignore`を作成し、秘密情報と生成物を除外 |
-| 1 | Hello Ruby | モデル、サービス、ControllerをRubyで実装 |
-| 2 | フローチャートとデータ型 | 登録、投稿、Like、Followの正常系・異常系を条件分岐として設計 |
-| 3 | ファイル操作 | Active Storageで画像ファイルを安全に保存・検証 |
-| 4 | クラスとモジュール | モデル責務、`FeedQuery`、Policyへ処理を分離 |
-| 5 | RSpec | Factory、Model spec、境界値・例外・重複操作を検証 |
-| 6 | HTTPサーバー | RESTful route、HTTPメソッド、status、redirect、Turboレスポンスを実装 |
-| 7 | Rails | MVC、ERB、Tailwind CSS、Turbo、Stimulusでアプリを構成 |
-| 8 | Database Part 1 | 5モデル、主キー、外部キー、NOT NULL制約をmigrationで定義 |
-| 9 | Database Part 2 | 複合一意index、CHECK制約、関連の先読み、安定した並び順を実装 |
-| 10 | Debugging | Railsログ、RSpec失敗、静的解析結果から不具合を修正 |
-| 11 | Active Record | association、validation、scope、Active Storageを実装 |
-| 12 | Controllerと認証 | Strong Parameters、セッション、`has_secure_password`を実装 |
-| 13 | 認可 | Punditで投稿編集、コメント削除、Follow操作を制御 |
-| 14 | View | ERB、partial、form helper、Turbo Stream、XSS対策、基本的なアクセシビリティを実装 |
-| 15 | RSpecと提出 | 35件のspec、RuboCop、Brakeman、セットアップ手順を整備 |
-
-## 既知の制約
-
-- Ruby 3.2.3は保守期間が終了しているため、環境修復後にRuby 3.3以降へ更新する必要がある。
-- PostgreSQLを導入できないWSL環境のため、現在はSQLiteを使用している。本番運用前にはPostgreSQLへ移行し、同時実行時の制約動作を再検証する。
-- フィードは最大30件であり、次ページを取得するUIはまだ実装していない。
-- 画像は開発環境のローカルストレージへ保存する。本番ではS3互換ストレージなどを設定する必要がある。
+- Ruby 3.2.3は保守期間を終了しています。Ruby 3.3以降への更新が必要です。
+- 現在はSQLiteを使用しています。本番運用前にPostgreSQLへの移行を推奨します。
+- フィードは最大30件で、次ページを取得するUIは未実装です。
+- 画像はローカルストレージへ保存します。本番ではS3互換ストレージなどの設定が必要です。
+- Docker imageは未検証です。

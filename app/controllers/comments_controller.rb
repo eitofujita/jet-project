@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
     if @comment.save
       respond_to do |format|
         format.turbo_stream
-        format.html { redirect_to @post, notice: "コメントしました" }
+        format.html { redirect_to @post, notice: "Комментарий добавлен" }
       end
     else
       redirect_to @post, alert: @comment.errors.full_messages.to_sentence, status: :see_other
@@ -23,7 +23,7 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream
-      format.html { redirect_to @post, notice: "コメントを削除しました", status: :see_other }
+      format.html { redirect_to @post, notice: "Комментарий удалён", status: :see_other }
     end
   end
 

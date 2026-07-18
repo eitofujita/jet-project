@@ -1,25 +1,29 @@
 <article id="<%= dom_id(post) %>" class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
   <header class="flex items-center justify-between p-4">
     <%= link_to "@#{post.user.username}", user_path(post.user), class: "font-semibold hover:text-blue-600" %>
-    <time class="text-sm text-slate-500" datetime="<%= post.created_at.iso8601 %>">
-      <%= l(post.created_at, format: :short) %>
-    </time>
+    <%= link_to post_path(post), class: "text-sm text-slate-500 hover:text-blue-600", aria: { label: "Открыть публикацию" } do %>
+      <time datetime="<%= post.created_at.iso8601 %>"><%= l(post.created_at, format: :short) %></time>
+    <% end %>
   </header>
 
   <% if post.image.attached? %>
-    <%= image_tag post.image, alt: "#{post.user.username}の投稿画像", class: "max-h-[42rem] w-full bg-slate-100 object-contain" %>
+    <%= link_to post_path(post), class: "block", aria: { label: "Открыть публикацию пользователя #{post.user.username}" } do %>
+      <%= image_tag post.image, alt: "Изображение публикации пользователя #{post.user.username}", class: "max-h-[42rem] w-full bg-slate-100 object-contain transition-opacity hover:opacity-90" %>
+    <% end %>
   <% end %>
 
   <div class="space-y-4 p-4">
     <%= render "likes/like_button", post: post %>
     <% if post.caption.present? %>
-      <p class="whitespace-pre-wrap"><span class="font-semibold">@<%= post.user.username %></span> <%= post.caption %></p>
+      <%= link_to post_path(post), class: "block rounded hover:bg-slate-50" do %>
+        <p class="whitespace-pre-wrap"><span class="font-semibold">@<%= post.user.username %></span> <%= post.caption %></p>
+      <% end %>
     <% end %>
-    <%= link_to "コメント#{post.comments.size}件を見る", post_path(post), class: "text-sm text-slate-600 hover:text-blue-600" %>
+    <%= link_to "Посмотреть комментарии (#{post.comments.size})", post_path(post), class: "text-sm text-slate-600 hover:text-blue-600" %>
     <% if policy(post).update? %>
       <div class="flex gap-4 border-t pt-3 text-sm">
-        <%= link_to "編集", edit_post_path(post), class: "text-blue-600" %>
-        <%= button_to "削除", post_path(post), method: :delete, form: { data: { turbo_confirm: "投稿を削除しますか？" } }, class: "text-red-600" %>
+        <%= link_to "Редактировать", edit_post_path(post), class: "text-blue-600" %>
+        <%= button_to "Удалить", post_path(post), method: :delete, form: { data: { turbo_confirm: "Удалить публикацию?" } }, class: "text-red-600" %>
       </div>
     <% end %>
   </div>

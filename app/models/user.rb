@@ -32,4 +32,12 @@ class User < ApplicationRecord
     format: { with: URI::MailTo::EMAIL_REGEXP },
     uniqueness: { case_sensitive: false }
   validates :password, length: { minimum: 8 }, if: -> { password.present? }
+
+  def to_param
+    "@#{username}"
+  end
+
+  def self.find_by_param!(value)
+    find_by!(username: value.to_s.delete_prefix("@").downcase)
+  end
 end

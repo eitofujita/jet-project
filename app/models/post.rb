@@ -13,14 +13,14 @@ class Post < ApplicationRecord
 
   def acceptable_image
     unless image.attached?
-      errors.add(:image, "を選択してください")
+      errors.add(:image, "необходимо выбрать")
       return
     end
 
     unless image.content_type.in?(%w[image/jpeg image/png image/webp])
-      errors.add(:image, "はJPEG、PNG、WebP形式を選択してください")
+      errors.add(:image, "должно быть в формате JPEG, PNG или WebP")
     end
 
-    errors.add(:image, "は5MB以下にしてください") if image.byte_size > 5.megabytes
+    errors.add(:image, "должно быть не больше 5 МБ") if image.byte_size > 5.megabytes
   end
 end

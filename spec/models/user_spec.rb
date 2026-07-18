@@ -17,4 +17,16 @@ RSpec.describe User, type: :model do
 
     expect(user).not_to be_valid
   end
+
+  it "ユーザー名をURLパラメータに使用する" do
+    user = build(:user, username: "mina")
+
+    expect(user.to_param).to eq("@mina")
+  end
+
+  it "@付きユーザー名からユーザーを取得する" do
+    user = create(:user, username: "mina")
+
+    expect(described_class.find_by_param!("@mina")).to eq(user)
+  end
 end

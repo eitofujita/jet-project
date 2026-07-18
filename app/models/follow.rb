@@ -8,6 +8,6 @@ class Follow < ApplicationRecord
   private
 
   def cannot_follow_self
-    errors.add(:followed, "に自分自身は指定できません") if follower == followed
+    errors.add(:followed, "нельзя подписаться на самого себя") if follower == followed
   end
 end

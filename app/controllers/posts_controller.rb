@@ -29,7 +29,7 @@ class PostsController < ApplicationController
     authorize @post
 
     if @post.save
-      redirect_to @post, notice: "投稿しました"
+      redirect_to @post, notice: "Публикация создана"
     else
       render :new, status: :unprocessable_content
     end
@@ -39,7 +39,7 @@ class PostsController < ApplicationController
     authorize @post
 
     if @post.update(post_params)
-      redirect_to @post, notice: "投稿を更新しました", status: :see_other
+      redirect_to @post, notice: "Публикация обновлена", status: :see_other
     else
       render :edit, status: :unprocessable_content
     end
@@ -48,7 +48,7 @@ class PostsController < ApplicationController
   def destroy
     authorize @post
     @post.destroy!
-    redirect_to root_path, notice: "投稿を削除しました", status: :see_other
+    redirect_to root_path, notice: "Публикация удалена", status: :see_other
   end
 
   private

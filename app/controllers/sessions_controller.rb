@@ -10,15 +10,15 @@ class SessionsController < ApplicationController
       destination = session.delete(:return_to) || root_path
       reset_session
       session[:user_id] = user.id
-      redirect_to destination, notice: "ログインしました"
+      redirect_to destination, notice: "Вы вошли в аккаунт"
     else
-      flash.now[:alert] = "メールアドレスまたはパスワードが正しくありません"
+      flash.now[:alert] = "Неверная электронная почта или пароль"
       render :new, status: :unprocessable_content
     end
   end
 
   def destroy
     reset_session
-    redirect_to new_session_path, notice: "ログアウトしました", status: :see_other
+    redirect_to login_path, notice: "Вы вышли из аккаунта", status: :see_other
   end
 end

@@ -1,0 +1,17 @@
+<div class="mx-auto max-w-2xl">
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold">Найти пользователей</h1>
+    <p class="mt-2 text-slate-600">Откройте профиль, чтобы посмотреть публикации и подписаться.</p>
+  </div>
+
+  <% if @users.any? %>
+    <div class="space-y-4">
+      <%= render partial: "user_card", collection: @users, as: :user %>
+    </div>
+  <% else %>
+    <div class="rounded-xl bg-white p-8 text-center shadow-sm">
+      <p>Других пользователей пока нет.</p>
+      <p class="mt-2 text-sm text-slate-600">Для проверки создайте второй аккаунт в другом браузере или после выхода.</p>
+    </div>
+  <% end %>
+</div>
